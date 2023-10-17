@@ -4,6 +4,7 @@ import re
 
 import docx2txt
 from langchain.docstore.document import Document
+from langchain.document_loaders.url import UnstructuredURLLoader
 import fitz
 from hashlib import md5
 
@@ -96,6 +97,13 @@ class TxtFile(File):
         return cls(name=file.name, id=md5(file.read()).hexdigest(), docs=[doc])
 
 
+class URLFile(File):
+
+    @classmethod
+    def from_bytes(cls, docs) -> "URLFile":
+        return cls(name="url-file", id=md5("url-file".encode()).hexdigest(), docs=docs)
+
+
 def read_file(file: BytesIO) -> File:
     """Reads an uploaded file and returns a File object"""
     if file.name.lower().endswith(".docx"):
@@ -106,3 +114,8 @@ def read_file(file: BytesIO) -> File:
         return TxtFile.from_bytes(file)
     else:
         raise NotImplementedError(f"File type {file.name.split('.')[-1]} not supported")
+
+def read_url(url) -> File:
+    loader = UnstructuredURLLoader(urls=[url])
+    docs = loader.load()
+    return URLFile.from_bytes(docs)

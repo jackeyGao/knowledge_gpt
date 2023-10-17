@@ -1,4 +1,5 @@
 import streamlit as st
+import traceback
 
 from knowledge_gpt.components.sidebar import sidebar
 
@@ -13,6 +14,7 @@ from knowledge_gpt.ui import (
 from knowledge_gpt.core.caching import bootstrap_caching
 
 from knowledge_gpt.core.parsing import read_file
+from knowledge_gpt.core.parsing import read_url
 from knowledge_gpt.core.chunking import chunk_file
 from knowledge_gpt.core.embedding import embed_files
 from knowledge_gpt.core.qa import query_folder
@@ -44,11 +46,17 @@ if not openai_api_key:
     )
 
 
-uploaded_file = st.file_uploader(
-    "Upload a pdf, docx, or txt file",
-    type=["pdf", "docx", "txt"],
-    help="Scanned documents are not supported yet!",
-)
+tab_file, tab_url = st.tabs(["📃 File", "🕸️ URL"])
+
+with tab_file:
+    uploaded_file = st.file_uploader(
+        "Upload a pdf, docx, or txt file",
+        type=["pdf", "docx", "txt"],
+        help="Scanned documents are not supported yet!",
+    )
+
+with tab_url:
+    typed_url = st.text_input("Enter a URL that can be accessed without logging in", placeholder="Enter URL")
 
 model: str = st.selectbox("Model", options=MODEL_LIST)  # type: ignore
 
@@ -57,13 +65,16 @@ with st.expander("Advanced Options"):
     show_full_doc = st.checkbox("Show parsed contents of the document")
 
 
-if not uploaded_file:
+if not uploaded_file and not typed_url:
     st.stop()
 
 try:
-    file = read_file(uploaded_file)
+    if uploaded_file:
+        file = read_file(uploaded_file)
+    else:
+        file = read_url(typed_url)
 except Exception as e:
-    display_file_read_error(e, file_name=uploaded_file.name)
+    display_file_read_error(e, file_name=uploaded_file.name if uploaded_file else typed_url)
 
 chunked_file = chunk_file(file, chunk_size=300, chunk_overlap=0)
 
