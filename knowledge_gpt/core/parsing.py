@@ -100,8 +100,10 @@ class TxtFile(File):
 class URLFile(File):
 
     @classmethod
-    def from_bytes(cls, docs) -> "URLFile":
-        return cls(name="url-file", id=md5("url-file".encode()).hexdigest(), docs=docs)
+    def from_bytes(cls, url) -> "URLFile":
+        loader = UnstructuredURLLoader(urls=[url])
+        docs = loader.load()
+        return cls(name=md5(url.encode()).hexdigest(), id=md5(url.encode()).hexdigest(), docs=docs)
 
 
 def read_file(file: BytesIO) -> File:
@@ -112,10 +114,10 @@ def read_file(file: BytesIO) -> File:
         return PdfFile.from_bytes(file)
     elif file.name.lower().endswith(".txt"):
         return TxtFile.from_bytes(file)
+    elif file.name.lower().endswith(".md"):
+        return TxtFile.from_bytes(file)
     else:
         raise NotImplementedError(f"File type {file.name.split('.')[-1]} not supported")
 
 def read_url(url) -> File:
-    loader = UnstructuredURLLoader(urls=[url])
-    docs = loader.load()
-    return URLFile.from_bytes(docs)
+    return URLFile.from_bytes(url)
