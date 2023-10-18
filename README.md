@@ -1,12 +1,12 @@
 <h1 align="center">
-📖KnowledgeGPT
+📖ThoughtsGPT
 </h1>
 
 <div id="top" align="center">
 
-![GitHub](https://img.shields.io/github/license/mmz-001/knowledge_gpt)
-![GitHub Repo stars](https://img.shields.io/github/stars/mmz-001/knowledge_gpt?style=social)
-![GitHub forks](https://img.shields.io/github/forks/mmz-001/knowledge_gpt?style=social)
+![GitHub](https://img.shields.io/github/license/mmz-001/thoughts_gpt)
+![GitHub Repo stars](https://img.shields.io/github/stars/mmz-001/thoughts_gpt?style=social)
+![GitHub forks](https://img.shields.io/github/forks/mmz-001/thoughts_gpt?style=social)
 [![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/mm_sasmitha)](https://twitter.com/mm_sasmitha)
 
 </div>

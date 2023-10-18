@@ -1,8 +1,8 @@
 import streamlit as st
 
 from dotenv import load_dotenv
-from knowledge_gpt.core.prompts import default_template
-from knowledge_gpt.components.prompt_example import example
+from thoughts_gpt.core.prompts import default_template
+from thoughts_gpt.components.prompt_example import example
 
 import os
 

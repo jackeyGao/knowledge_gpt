@@ -1,9 +1,9 @@
 from typing import List
 from langchain.chains.qa_with_sources import load_qa_with_sources_chain
-from knowledge_gpt.core.prompts import STUFF_PROMPT
+from thoughts_gpt.core.prompts import STUFF_PROMPT
 from langchain.prompts import PromptTemplate
 from langchain.docstore.document import Document
-from knowledge_gpt.core.embedding import FolderIndex
+from thoughts_gpt.core.embedding import FolderIndex
 from pydantic import BaseModel
 from langchain.chat_models.base import BaseChatModel
 
